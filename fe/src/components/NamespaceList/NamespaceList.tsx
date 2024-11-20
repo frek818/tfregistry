@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { NamespaceListWrapper } from './NamespaceList.styled';
 import { useSearchParams } from "react-router-dom";
+import CreateNamespaceModal from '../CreateNamespaceModal/CreateNamespaceModal'
+import { Button } from 'semantic-ui-react'
 
 type Namespace = {
    name: string;
@@ -39,7 +41,9 @@ const NamespaceList = () => {
             <div className="sixteen wide column">
                <h1>Namespaces</h1>
                <div className="ui basic segment">
-                  <a className="ui primary button" href="/create">Create</a>
+                  <CreateNamespaceModal>
+                     <Button primary>Create</Button>
+                  </CreateNamespaceModal>
                   <div className="ui icon input">
                      {/* <form id="desktop_search"
                       method="GET"

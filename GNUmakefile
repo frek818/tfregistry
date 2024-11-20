@@ -26,12 +26,12 @@ zip:
 	done
 
 tfyolo:
-	cd iac; terraform apply --auto-approve; cd ../
+	cd iac; terraform init; terraform apply --auto-approve; cd ../
 
 tfyodo:
-	cd iac; terraform apply -destroy --auto-approve ; cd ../
+	cd iac; terraform init; terraform apply -destroy --auto-approve ; cd ../
 
-deploy: build set-file-time zip tfyolo
+deploy: build fe-build set-file-time zip tfyolo
 
 set-file-time:
 	find . -exec touch -t `git ls-files -z . | \
