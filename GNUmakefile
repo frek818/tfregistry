@@ -26,10 +26,10 @@ zip:
 	done
 
 tfyolo:
-	cd iac; terraform init; terraform apply --auto-approve; cd ../
+	cd iac && terraform init && terraform apply --auto-approve && cd ../
 
 tfyodo:
-	cd iac; terraform init; terraform apply -destroy --auto-approve ; cd ../
+	cd iac && terraform init && terraform apply -destroy --auto-approve && cd ../
 
 deploy: build fe-build set-file-time zip tfyolo
 
@@ -42,7 +42,7 @@ clean:
 	rm -rf ./iac/build ./build
 
 fe-build:
-	cd fe; npm install; npm run build --profile; cd ../
+	cd fe && npm install && npm run build --profile && cd ../
 
 feci:
 	export CI=true; \

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { NamespaceListWrapper } from './NamespaceList.styled';
 import { useSearchParams } from "react-router-dom";
-import CreateNamespaceModal from '../CreateNamespaceModal/CreateNamespaceModal'
+import Modal from '../Modal/Modal'
 import { Button } from 'semantic-ui-react'
+import NamespaceForm from '../NamespaceForm/NamespaceForm';
 
 type Namespace = {
    name: string;
@@ -12,7 +13,7 @@ type Namespace = {
 const NamespaceList = () => {
    const [searchParams] = useSearchParams();
 
-   const limit = searchParams.get('limit') || '10'; 
+   const limit = searchParams.get('limit') || '10';
    const [items, setItems] = useState<Namespace[]>([]);
    const [page, setPage] = useState(1);
    const [startKey, setStartKey] = useState("")
@@ -21,7 +22,7 @@ const NamespaceList = () => {
       const response = await fetch(process.env.REACT_APP_API_URL_BASE + "/api/namespaces?limit=" + limit + (startKey ? "&start_key=" + startKey : ""));
       const newData = await response.json();
       return newData;
-    }
+   }
 
    const fetchData = async () => {
       const newData = await fetchMoreData(limit, startKey);
@@ -33,7 +34,7 @@ const NamespaceList = () => {
 
    useEffect(() => {
       fetchData(); // Fetch initial data on component mount
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
    return (<NamespaceListWrapper data-testid="NamespaceList">
       <div className="ui left aligned basic padded segment">
@@ -41,9 +42,9 @@ const NamespaceList = () => {
             <div className="sixteen wide column">
                <h1>Namespaces</h1>
                <div className="ui basic segment">
-                  <CreateNamespaceModal>
-                     <Button primary>Create</Button>
-                  </CreateNamespaceModal>
+                  <Modal trigger={<Button primary>Create</Button>} title='Create namespace' >
+                    <NamespaceForm />
+                  </Modal>
                   <div className="ui icon input">
                      {/* <form id="desktop_search"
                       method="GET"
@@ -58,7 +59,7 @@ const NamespaceList = () => {
                   </div>
                   <div className="ui divider"></div>
                   <div className="ui cards">
-                  {items.map(item => ( (
+                     {items.map(item => ((
                         <div className="card" key={item.name}>
                            <div className="content">
                               <div className="header">
@@ -72,7 +73,7 @@ const NamespaceList = () => {
             </div>
          </div>
          <div className="ui footer segment">
-            {startKey === null && "All caught up!" }
+            {startKey === null && "All caught up!"}
             {startKey !== null && <button className="fluid ui button" onClick={fetchData}>
                Load More..
             </button>}
